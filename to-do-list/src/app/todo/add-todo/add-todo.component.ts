@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Todo } from 'src/app/models/todo.model';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-add-todo',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddTodoComponent implements OnInit {
 
-  constructor() { }
+  todo = new Todo();
+
+  constructor(private todoService: TodoService,
+              private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(): void { //void est mis lorsque cette valeur ne retourne rien
+    this.todoService.addTodo(this.todo);
+    this.router.navigate(["todos"]); //navigate est une fonction qui prend et donc elle prend un argument les () et dans les parenthèze un tableau []
   }
 
 }

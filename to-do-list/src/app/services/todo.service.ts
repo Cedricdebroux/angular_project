@@ -1,3 +1,4 @@
+import { Todo } from './../models/todo.model';
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
@@ -5,7 +6,7 @@ import { Subject } from "rxjs";
 export class TodoService {
   today = new Date();
 
-  todos: any;
+  todos: Todo[] = [];
   todoSubject = new Subject<any[]>();
 
 
@@ -15,7 +16,7 @@ export class TodoService {
       this.todos = [
         {
           todoName: "Projet 1",
-          todoStatus: true,
+          todoStatus: false,
           image: "http://placeimg.com/300/300/tech",
           isModif: false,
           description: "Lorem ipsum dolor sit amet consectetur adipisicing elitconsequuntur quod totam, laboriosam illo ad incidunt saepe veritatis consequatur ea expedita, culpa eum tempore, temporibus excepturi earum? Fugiat culpa praesentium mollitia modi eligendi, obcaecati asperiores dolores molestiae nam, ducimus repellat.",
@@ -29,7 +30,7 @@ export class TodoService {
         },
         {
           todoName: "Projet 3",
-          todoStatus: true,
+          todoStatus: false,
           image: "http://placeimg.com/300/300/tech",
           isModif: false,
           description: "Lorem ipsum dolor sit amet consectetur adipisicing elitconsequuntur quod totam, laboriosam illo ad incidunt saepe veritatis consequatur ea expedita, culpa eum tempore, temporibus excepturi earum? Fugiat culpa praesentium mollitia modi eligendi, obcaecati asperiores dolores molestiae nam, ducimus repellat.",
@@ -45,9 +46,10 @@ export class TodoService {
       this.emitTodos();
     },1000);
   }
-emitTodos() {
+
+  emitTodos() {
   this.todoSubject.next(this.todos);
-}
+  }
 
   onChangeStatus(i: number) {
     this.todos[i].todoStatus = !this.todos[i].todoStatus;
@@ -62,5 +64,9 @@ emitTodos() {
       return this.todos[index];
     }
     return false;
+  }
+  addTodo(todo: Todo): void {
+    this.todos.unshift(todo);//permet de recuperer les nouvelles données
+    this.emitTodos;
   }
 }
